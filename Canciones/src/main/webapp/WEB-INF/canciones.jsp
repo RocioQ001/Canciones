@@ -27,8 +27,3 @@
 		</form>
 	</body>
 </html>
-
-<!--<form action="${pageContext.request.contextPath}/agregarCancion" method="GET">
-    <button type="submit">Agregar Canción</button>
-</form>
--->

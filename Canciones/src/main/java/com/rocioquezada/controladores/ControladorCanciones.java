@@ -65,17 +65,3 @@ public class ControladorCanciones {
 		return "redirect:/canciones";
 	}
 }
-
-/*
-@PostMapping("/canciones/formulario/agregar/{idCancion}")
-public String formularioAgregarCancion(@PathVariable("idCancion") Long idCancion, Model model) {
-	Cancion cancionNueva;
-	if(idCancion == 0) {
-		cancionNueva = new Cancion();
-	}else {
-		cancionNueva = servicioCanciones.obtenerCancionPorId(idCancion);
-	}
-	model.addAttribute("cancion", cancionNueva);
-	return "agregarCancion.jsp";
-}
-*/
