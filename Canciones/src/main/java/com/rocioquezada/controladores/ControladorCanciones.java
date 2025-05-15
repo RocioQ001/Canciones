@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import com.rocioquezada.modelos.Cancion;
 import com.rocioquezada.servicios.ServicioCanciones;
@@ -34,7 +35,8 @@ public class ControladorCanciones {
 	}
 	
 	@GetMapping("/canciones/detalle/{idCancion}")
-	public String desplegarDetalleCancion(@PathVariable("idCancion") Long idCancion, Model model) {
+	public String desplegarDetalleCancion(@PathVariable("idCancion") Long idCancion,
+										  Model model) {
 		Cancion cancionActual = this.servicioCanciones.obtenerCancionPorId(idCancion);
 		if (cancionActual == null) {
 			return "redirect:/canciones";
@@ -44,7 +46,8 @@ public class ControladorCanciones {
 	}
 	
 	@GetMapping("/canciones/formulario/agregar/{idCancion}")
-	public String formularioAgregarCancion(@PathVariable("idCancion") Long idCancion, Model model) {
+	public String formularioAgregarCancion(@PathVariable("idCancion") Long idCancion,
+										   Model model) {
 		Cancion cancionNueva;
 		if(idCancion == 0) {
 			cancionNueva = new Cancion();
@@ -62,6 +65,30 @@ public class ControladorCanciones {
 			return "agregarCancion.jsp";
 		}
 		this.servicioCanciones.agregarCancion(cancionNueva);
+		return "redirect:/canciones";
+	}
+	
+	@GetMapping("/canciones/formulario/editar/{idCancion}")
+	public String formularioEditarCancion(@PathVariable("idCancion") Long idCancion,
+										  Model model) {
+		Cancion cancionActualizada = servicioCanciones.obtenerCancionPorId(idCancion);
+	    if (cancionActualizada == null) {
+	        return "redirect:/canciones";
+	    }
+	    model.addAttribute("cancion", cancionActualizada);
+	    return "editarCancion.jsp";
+	}
+
+	@PutMapping("/canciones/procesa/editar/{idCancion}")
+	public String procesarEditarCancion(@Valid @ModelAttribute("cancion") Cancion cancion,
+									    BindingResult validacion,
+									    @PathVariable("idCancion") Long idCancion) {
+		if(validacion.hasErrors()) {
+			return "editarCancion.jsp";
+		}
+		Cancion cancionActual = this.servicioCanciones.obtenerCancionPorId(idCancion);
+		cancion.setId(cancionActual.getId());
+		this.servicioCanciones.actualizaCancion(cancion);
 		return "redirect:/canciones";
 	}
 }

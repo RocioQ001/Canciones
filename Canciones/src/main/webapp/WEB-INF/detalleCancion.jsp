@@ -17,6 +17,9 @@
 			<p><strong>Género musical:</strong> ${cancion.genero} </p>
 			<p><strong>Idioma de la canción:</strong> ${cancion.idioma} </p>
 			<a href="/canciones"> Volver a la lista de canciones </a>
+			<form action="${pageContext.request.contextPath}/canciones/formulario/editar/${cancion.id}" method="GET">
+				<button type="submit"> Actualizar canción </button>
+			</form>
 		</ul>
 	</body>
 </html>
