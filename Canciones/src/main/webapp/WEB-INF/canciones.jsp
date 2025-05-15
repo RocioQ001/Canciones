@@ -22,7 +22,7 @@
 			</tr>
 			</c:forEach>
 		</table>
-		<form action="${pageContext.request.contextPath}/canciones/formulario/agregar/0" method="GET">
+		<form action="/canciones/formulario/agregar/0" method="GET">
 			<button type="submit"> Agregar </button>
 		</form>
 	</body>
