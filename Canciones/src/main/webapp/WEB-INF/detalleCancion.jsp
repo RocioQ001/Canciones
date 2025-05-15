@@ -17,8 +17,12 @@
 			<p><strong>Género musical:</strong> ${cancion.genero} </p>
 			<p><strong>Idioma de la canción:</strong> ${cancion.idioma} </p>
 			<a href="/canciones"> Volver a la lista de canciones </a>
-			<form action="${pageContext.request.contextPath}/canciones/formulario/editar/${cancion.id}" method="GET">
+			<form action="/canciones/formulario/editar/${cancion.id}" method="GET">
 				<button type="submit"> Actualizar canción </button>
+			</form>
+			<form action="/canciones/eliminar/${cancion.id}" method="POST">
+				<input type="hidden" name="_method" value="DELETE">
+				<button type="submit"> Eliminar cancion </button>
 			</form>
 		</ul>
 	</body>
