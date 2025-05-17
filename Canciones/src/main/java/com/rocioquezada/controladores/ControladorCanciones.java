@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import com.rocioquezada.modelos.Artista;
 import com.rocioquezada.modelos.Cancion;
+import com.rocioquezada.servicios.ServicioArtistas;
 import com.rocioquezada.servicios.ServicioCanciones;
 
 import jakarta.validation.Valid;
@@ -21,11 +23,14 @@ import jakarta.validation.Valid;
 @Controller
 public class ControladorCanciones {
 
+    private final ServicioArtistas servicioArtistas;
+
 	@Autowired
 	private final ServicioCanciones servicioCanciones;
 	
-	public ControladorCanciones(ServicioCanciones servicioCanciones) {
+	public ControladorCanciones(ServicioCanciones servicioCanciones, ServicioArtistas servicioArtistas) {
 		this.servicioCanciones = servicioCanciones;
+		this.servicioArtistas = servicioArtistas;
 	}
 	
 	@GetMapping("/canciones")
@@ -55,16 +60,22 @@ public class ControladorCanciones {
 		}else {
 			cancionNueva = servicioCanciones.obtenerCancionPorId(idCancion);
 		}
+		List<Artista> listaArtistas = this.servicioArtistas.obtenerTodosLosArtistas();
+		model.addAttribute("listaArtistas", listaArtistas);
 		model.addAttribute("cancion", cancionNueva);
 		return "agregarCancion.jsp";
 	}
-	
+
 	@PostMapping("/canciones/procesa/agregar")
 	public String procesarAgregarCancion(@Valid @ModelAttribute("cancion") Cancion cancionNueva,
-										BindingResult validacion) {
+										BindingResult validacion, Long idArtista, Model model) {
 		if(validacion.hasErrors()) {
+			List<Artista> listaArtistas = this.servicioArtistas.obtenerTodosLosArtistas();
+			model.addAttribute("listaArtistas", listaArtistas);
 			return "agregarCancion.jsp";
 		}
+		Artista artista = this.servicioArtistas.obtenerArtistaPorId(idArtista);
+		cancionNueva.setArtista(artista);
 		this.servicioCanciones.agregarCancion(cancionNueva);
 		return "redirect:/canciones";
 	}
@@ -76,7 +87,9 @@ public class ControladorCanciones {
 	    if (cancionActualizada == null) {
 	        return "redirect:/canciones";
 	    }
+	    List<Artista> listaArtistas = servicioArtistas.obtenerTodosLosArtistas();
 	    model.addAttribute("cancion", cancionActualizada);
+	    model.addAttribute("listaArtistas", listaArtistas);
 	    return "editarCancion.jsp";
 	}
 
@@ -99,13 +112,3 @@ public class ControladorCanciones {
 		return "redirect:/canciones";
 	}
 }
-
-
-
-
-
-
-
-
-
-

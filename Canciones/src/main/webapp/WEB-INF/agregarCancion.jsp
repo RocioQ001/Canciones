@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -19,11 +20,17 @@
 				<form:errors path="titulo"/>
 			</div>
 			<div>
-				<form:label path="artista">
-					Artísta:
-				</form:label>
-				<form:input path="artista"/>
-				<form:errors path="artista"/>
+				<label for="idArtista">
+					Artista:
+				</label>
+				<select name="idArtista" id="idArtista">
+				<option>Seleccione un artísta</option>
+				<c:forEach items="${artista}" var="artista">
+					<option value="${artista.id}">
+						${artista.nombre} ${artista.apellido}
+					</option>
+				</c:forEach>
+				</select>
 			</div>
 			<div>
 				<form:label path="album">

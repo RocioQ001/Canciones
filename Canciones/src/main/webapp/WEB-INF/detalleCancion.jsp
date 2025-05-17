@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="java.util.*, java.text.*" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ page isErrorPage="true" %>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,7 +13,7 @@
 		<ul>
 			<h2> - Información de la Canción - </h2>
 			<p><strong>Título:</strong> ${cancion.titulo} </p>
-			<p><strong>Artísta:</strong> ${cancion.artista} </p>
+			<p><strong>Artísta:</strong> ${cancion.artista.nombre} ${cancion.artista.apellido} </p>
 			<p><strong>Albúm:</strong> ${cancion.album} </p>
 			<p><strong>Género musical:</strong> ${cancion.genero} </p>
 			<p><strong>Idioma de la canción:</strong> ${cancion.idioma} </p>
